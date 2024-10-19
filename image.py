@@ -47,7 +47,7 @@ def process_img(img_data):
             compressed_img = compress_img(img_data)
         else:
             if width > 1024 or height > 1024:
-                compress_img = compress_img(img_data)
+                compressed_img = compress_img(img_data)
             else:
                 compressed_img = img_data
     return compressed_img
