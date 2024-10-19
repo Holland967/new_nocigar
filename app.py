@@ -394,15 +394,16 @@ if st.session_state.login:
                 messages: list = messages + st.session_state.image_chat_msg[1:]
             with st.chat_message("assistant"):
                 client = OpenAI(api_key=api_key, base_url=base_url)
-                response = client.chat.completions.create(
-                    model=model,
-                    messages=messages,
-                    max_tokens=max_tokens,
-                    temperature=temperature,
-                    top_p=top_p,
-                    frequency_penalty=frequency_penalty,
-                    presence_penalty=presence_penalty,
-                    stream=True)
+                with st.spinner("Sending image..."):
+                    response = client.chat.completions.create(
+                        model=model,
+                        messages=messages,
+                        max_tokens=max_tokens,
+                        temperature=temperature,
+                        top_p=top_p,
+                        frequency_penalty=frequency_penalty,
+                        presence_penalty=presence_penalty,
+                        stream=True)
                 result: str = st.write_stream(chunk.choices[0].delta.content \
                     for chunk in response if chunk.choices[0].delta.content is not None)
             st.session_state.image_chat_msg.append({"role": "assistant", "content": result})
